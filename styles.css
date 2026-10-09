@@ -71,6 +71,10 @@ img { max-width: 100%; display: block; }
   cursor: pointer;
   transition: all var(--transition);
   white-space: nowrap;
+  -webkit-transition: all var(--transition);
+  -moz-transition: all var(--transition);
+  -ms-transition: all var(--transition);
+  -o-transition: all var(--transition);
 }
 
 .btn--primary {
@@ -651,6 +655,10 @@ img { max-width: 100%; display: block; }
 .course-card:hover {
   transform: translateY(-4px);
   border-color: rgba(37, 99, 235, 0.3);
+  -webkit-transform: translateY(-4px);
+  -moz-transform: translateY(-4px);
+  -ms-transform: translateY(-4px);
+  -o-transform: translateY(-4px);
 }
 
 .course-card__badge {
@@ -969,6 +977,10 @@ img { max-width: 100%; display: block; }
   opacity: 0;
   transform: translateY(24px);
   transition: opacity 0.6s ease, transform 0.6s ease;
+  -webkit-transform: translateY(24px);
+  -moz-transform: translateY(24px);
+  -ms-transform: translateY(24px);
+  -o-transform: translateY(24px);
 }
 
 .fade-in.visible {
