@@ -1,20 +1,33 @@
+// Always open on the homepage (hero), not a previously visited section like #contact
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+window.addEventListener('load', () => window.scrollTo(0, 0));
+
 // Sticky header on scroll
 const header = document.getElementById('header');
-window.addEventListener('scroll', () => {
-  header.classList.toggle('scrolled', window.scrollY > 50);
-});
+if (header) {
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 50);
+  });
+}
 
 // Mobile navigation toggle
 const navToggle = document.getElementById('nav-toggle');
 const navMenu = document.getElementById('nav-menu');
 
-navToggle.addEventListener('click', () => {
-  navMenu.classList.toggle('open');
-});
+if (navToggle && navMenu) {
+  navToggle.addEventListener('click', () => {
+    const isOpen = navMenu.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+  });
 
-document.querySelectorAll('.nav__link').forEach(link => {
-  link.addEventListener('click', () => navMenu.classList.remove('open'));
-});
+  document.querySelectorAll('.nav__link').forEach(link => {
+    link.addEventListener('click', () => {
+      navMenu.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
 
 // Scroll-triggered fade-in animations
 const observer = new IntersectionObserver(
@@ -48,15 +61,17 @@ document.querySelectorAll('.faq__item').forEach(item => {
 
 // Contact form handling
 const contactForm = document.getElementById('contact-form');
-contactForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const btn = contactForm.querySelector('button[type="submit"]');
-  const originalText = btn.textContent;
-  btn.textContent = 'Message Sent!';
-  btn.disabled = true;
-  contactForm.reset();
-  setTimeout(() => {
-    btn.textContent = originalText;
-    btn.disabled = false;
-  }, 3000);
-});
+if (contactForm) {
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const btn = contactForm.querySelector('button[type="submit"]');
+    const originalText = btn.textContent;
+    btn.textContent = 'Message Sent!';
+    btn.disabled = true;
+    contactForm.reset();
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }, 3000);
+  });
+}
