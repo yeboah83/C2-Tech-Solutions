@@ -59,19 +59,35 @@ document.querySelectorAll('.faq__item').forEach(item => {
   });
 });
 
-// Contact form handling
+// Contact form handling — emails submissions to c2techsolutions01@gmail.com via FormSubmit
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
-  contactForm.addEventListener('submit', (e) => {
+  contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = contactForm.querySelector('button[type="submit"]');
     const originalText = btn.textContent;
-    btn.textContent = 'Message Sent!';
+    btn.textContent = 'Sending...';
     btn.disabled = true;
-    contactForm.reset();
+
+    try {
+      const endpoint = contactForm.action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(contactForm)
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.success === 'false' || data.success === false) throw new Error(data.message || 'Failed');
+      btn.textContent = 'Message Sent!';
+      contactForm.reset();
+    } catch (err) {
+      console.error(err);
+      btn.textContent = 'Failed to send — please try again';
+    }
+
     setTimeout(() => {
       btn.textContent = originalText;
       btn.disabled = false;
-    }, 3000);
+    }, 4000);
   });
 }
